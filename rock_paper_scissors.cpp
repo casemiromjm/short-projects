@@ -42,7 +42,7 @@ string player_choice(){                         // function to get player choice
     return p_choice;
 }
 
-string computer_choice(void){                       // function to get computer choice
+string computer_choice(void){                   // function to get computer choice
     string c_choice, choices[3] = {"Rock", "Paper", "Scissors"};
     int index;
 
@@ -56,8 +56,8 @@ string computer_choice(void){                       // function to get computer 
     return c_choice;
 }
 
-int main(void){                                 // function that checks who won
-    string player_played, computer_played;
+string winner(){								// function that checks who won
+	string player_played, computer_played;
 
     // get choices
     player_played = player_choice();
@@ -66,35 +66,85 @@ int main(void){                                 // function that checks who won
 
     // check who won
     if (player_played == computer_played){
-        cout << "You and the computer chose " << player_played << '.' << " It's a tie! Try again next time!\n";
+        cout << "You and the computer chose " << player_played << '.' << " It's a tie!\n";
+		cout << " \n";
+		return "none";
     }
 
     else if (player_played == "Rock"){
         if (computer_played == "Paper"){
             cout << "You picked Rock, but the computer picked Paper. You lost!\n";
+			cout << " \n";
+			return "computer";
         }
         else{
             cout << "You picked Rock and the computer picked Scissors. You won!\n";
+			cout << " \n";
+			return "player";
         }
     }
     
     else if (player_played == "Scissors"){
         if (computer_played == "Paper"){
             cout << "You picked Scissors and the computer picked Paper. You won!\n";
+			cout << " \n";
+			return "player";
         }
         else{
             cout << "You picked Scissors, but the computer picked Rock. You lost!\n";
+			cout << " \n";
+			return "computer";
         }
     }
 
     else if (player_played == "Paper"){
         if (computer_played == "Rock"){
             cout << "You picked Paper and the computer picked Rock. You won!\n";
+			cout << " \n";
+			return "player";
         }
         else{
             cout << "You picked Paper, but the computer picked Scissors. You lost!\n";
+			cout << " \n";
+			return "computer";
         }
     }
+	return "none";
+}
+
+int main(){										// function to run the match and keep track of the score                           
+    int computer_score = 0, player_score = 0;
+	string game_winner;
+
+	cout << "If you win the game, you get 1 point. If you win 5 games, you win the match!\n";
+	cout << " \n";
+
+	while (computer_score < 5 and player_score < 5){
+		game_winner = winner();					// gets who won the last game
+		if (game_winner == "computer"){
+			computer_score = computer_score + 1;
+		}
+		else if (game_winner == "player"){
+			player_score = player_score + 1;
+		}
+		
+		if (player_score > computer_score){
+			cout << "You are winning! The match is (PxC) " << player_score << " x " << computer_score << "\n";
+		}
+		else if (computer_score > player_score){
+			cout << "You are losing! The match is (PxC) " << player_score << " x " << computer_score << "\n";
+		}
+		else if (player_score == computer_score){
+			cout << "The match is tied. (PxC) " << player_score << " x " << computer_score << "\n";
+		}
+	}
+
+	if (player_score == 5){
+		cout << "You did win 5 games! Well done! You won the match!\n";
+	}
+	else if (computer_score == 5){
+		cout << "The computer won 5 games! You lost the match!\n";
+	}
 
     return 0;
 }
